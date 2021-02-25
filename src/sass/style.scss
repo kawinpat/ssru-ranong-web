@@ -1,0 +1,36 @@
+@import "variables";
+.homeContainer {
+    padding: 0px 100px 0px 100px;
+}
+
+p {
+    font-size: 20px;
+}
+
+.paragraph {
+    text-indent: 4vw;
+}
+
+@media screen and (max-width: 414px) {
+    .homeContainer {
+        padding: 0px 8px 0px 8px;
+    }
+    h1 {
+        font-size: 25px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    p {
+        font-size: 18px;
+    }
+    img {
+        width: 100% !important;
+    }
+}
+
+@media screen and (min-width: 540px) and (max-width: 768px) {
+    img {
+        width: 100% !important;
+    }
+}

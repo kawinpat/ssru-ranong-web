@@ -1,15 +1,19 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import newsModule from "./modules/news"
+Vue.use(Vuex);
 
-Vue.use(Vuex)
+export const store = new Vuex.Store({
+    plugins: [createPersistedState()],
+    state: {},
 
-export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    getters: {},
+
+    actions: {},
+
+    mutations: {},
+    modules: {
+        newsModule
+    },
+});
