@@ -1,7 +1,33 @@
 <template>
   <v-container class="mt-10 text-left">
     <v-row class="px-7 d-flex justify-start align-end">
-      <h1 class="headTopic">ข่าวสารการท่องเที่ยวเชิงเกษตร</h1>
+      <h1 class="headTopic">แหล่งท่องเที่ยวยอดฮิต</h1>
+      <v-spacer></v-spacer>
+      <v-btn
+        class="hidden-sm-and-down orange--text"
+        @click="$router.push('/tour/hit')"
+        outlined
+      >
+        ดูสถานที่ท่องเที่ยวทั้งหมด<v-icon right class="material-icons"
+          >read_more</v-icon
+        >
+      </v-btn>
+    </v-row>
+    <TourHitComponent :hits_data="hits_data" :page="'home'" />
+    <v-row v-if="hits_data" class="d-flex justify-center align-end mb-10">
+      <v-btn
+        class="hidden-md-and-up orange--text"
+        @click="$router.push('/tour/hit')"
+        outlined
+      >
+        ดูสถานที่ท่องเที่ยวทั้งหมด<v-icon right class="material-icons">
+          read_more
+        </v-icon>
+      </v-btn>
+    </v-row>
+
+    <v-row class="px-7 d-flex justify-start align-end">
+      <h1 class="headTopic">ข่าวสารการเกษตรจังหวัดระนอง</h1>
       <v-spacer></v-spacer>
       <v-btn
         class="hidden-sm-and-down orange--text"
@@ -12,7 +38,7 @@
       </v-btn>
     </v-row>
     <NewsComponent :news_data="news_data" :page="'home'" />
-    <v-row class="d-flex justify-center align-end">
+    <v-row v-if="news_data" class="d-flex justify-center align-end">
       <v-btn
         class="hidden-md-and-up orange--text"
         @click="$router.push('/news')"
@@ -33,9 +59,9 @@
         อ่านเพิ่มเติม<v-icon right class="material-icons">read_more</v-icon>
       </v-btn>
     </v-row>
-    <AboutComponent :page="'home'"/>
+    <AboutComponent :page="'home'" />
 
-    <div class="px-4 mt-15" style="height: 400px;">
+    <div class="px-4 mt-15" style="height: 200px;">
       <h1 class="headTopic">กระทู้ถาม-ตอบ</h1>
       <div class="d-flex align-center mt-5">
         <p class="mb-0">
@@ -69,36 +95,62 @@
 import { mapGetters, mapMutations } from "vuex";
 import NewsComponent from "@/components/News.component.vue";
 import AboutComponent from "@/components/About.component.vue";
+import TourHitComponent from "@/components/tour-hit.component.vue";
 
 export default {
   name: "Home",
   components: {
     NewsComponent,
     AboutComponent,
+    TourHitComponent,
   },
   beforeMount() {
-    this.OnQuery();
+    this.OnQueryNews();
+    this.OnQueryHits();
   },
   data() {
     return {
       news_data: null,
+      hits_data: null,
     };
   },
   computed: {
-    ...mapGetters(["getNews"]),
+    ...mapGetters(["getNews", "getHits"]),
   },
   methods: {
-    ...mapMutations(["KeepNews"]),
-    async OnQuery() {
+    ...mapMutations(["KeepNews", "KeepHits"]),
+    async OnQueryNews() {
       try {
-        let QueryNews = await this.getNews;
-        if (QueryNews != null && QueryNews.lenght != 0) {
-          this.news_data = QueryNews;
-          return false;
-        }
+        // let QueryNews = await this.getNews;
+        // if (QueryNews != null && QueryNews.lenght != 0) {
+        //   this.news_data = QueryNews;
+        //   return false;
+        // }
         let news = await this.$restApi.get("news/all");
-        this.KeepNews(news);
-        this.news_data = news;
+        if (news.length != 0) {
+          this.KeepNews(news);
+          this.news_data = news;
+        } else {
+          this.news_data = null;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async OnQueryHits() {
+      try {
+        // let QueryHits = await this.getHits;
+        // if (QueryHits != null && QueryHits.lenght != 0) {
+        //   this.hits_data = QueryHits;
+        //   return false;
+        // }
+        let hits = await this.$restApi.get("hits/hot");
+        if (hits.length != 0) {
+          this.KeepHits(hits);
+          this.hits_data = hits;
+        } else {
+          this.hits_data = null;
+        }
       } catch (err) {
         console.log(err);
       }
@@ -107,5 +159,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

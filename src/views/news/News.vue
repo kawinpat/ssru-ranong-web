@@ -1,11 +1,22 @@
 <template>
   <v-container class="text-left" style="margin-bottom: 60px;">
     <div class="d-flex justify-center align-center mt-10 px-3">
-      <h1>ข่าวสารการท่องเที่ยวเชิงเกษตร</h1>
+      <h1>ข่าวสารการเกษตรจังหวัดระนอง</h1>
       <v-spacer></v-spacer>
       <v-btn
         v-if="isLoggedIn()"
-        class="hidden-sm-and-down"
+        class="hidden-sm-and-down mx-1"
+        @click="delete_news = !delete_news"
+        color="error"
+        dark
+      >
+        ลบข่าว<v-icon right class="material-icons">
+          {{ delete_news ? "mdi-close" : "mdi-cog" }}
+        </v-icon>
+      </v-btn>
+      <v-btn
+        v-if="isLoggedIn()"
+        class="hidden-sm-and-down mx-1"
         @click="newpost_dialog = !newpost_dialog"
         color="primary"
         dark
@@ -24,7 +35,12 @@
       </v-btn>
     </div>
 
-    <NewsComponent :news_data="news_data" :page="'news'" />
+    <NewsComponent
+      :news_data="news_data"
+      :delete_news="delete_news"
+      :page="'news'"
+      @deleteNews="OnDelete($event)"
+    />
     <NewPostDialog
       v-if="newpost_dialog"
       :newpost_dialog="newpost_dialog"
@@ -36,7 +52,7 @@
 
 <script>
 import NewsComponent from "@/components/News.component.vue";
-import NewPostDialog from "@/views/news/NewPostDialog";
+import NewPostDialog from "@/components/dialog/NewPostDialog";
 import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Name",
@@ -45,12 +61,13 @@ export default {
     NewPostDialog,
   },
   beforeMount() {
-    this.OnQuery();
+    this.OnQueryNews();
   },
   data() {
     return {
       news_data: null,
       newpost_dialog: false,
+      delete_news: false,
     };
   },
   mounted() {
@@ -61,7 +78,7 @@ export default {
   },
   methods: {
     ...mapMutations(["KeepNews"]),
-    async OnQuery() {
+    async OnQueryNews() {
       try {
         let resultNews = await this.getNews;
         if (resultNews != null) {
@@ -87,9 +104,18 @@ export default {
       }
     },
     async OnPosted(item) {
-      let { title, detail, titleImg } = item;
-      await this.$restApi.post("news/post", { title, detail, titleImg });
+      let { title, detail, titleImg, refer } = item;
+      await this.$restApi.post("news/post", { title, detail, titleImg, refer });
       this.OnNewQuery();
+    },
+    async OnDelete(_id) {
+      try {
+        await this.$restApi
+          .post("news/delete", { _id })
+          .then(() => this.OnNewQuery());
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

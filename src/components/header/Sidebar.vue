@@ -87,6 +87,11 @@ export default {
         { title: "หน้าแรก", icon: "mdi-view-dashboard", path: "/" },
         { title: "ข่าวสาร", icon: "mdi-newspaper-variant", path: "/news" },
         {
+          title: "แหล่งท่องเที่ยวยอดฮิต",
+          icon: "mdi-newspaper-variant",
+          path: "/tour/hit",
+        },
+        {
           title: "เกี่ยวกับท่องเที่ยวเชืงเกษตร",
           icon: "mdi-barley",
           path: "/about",

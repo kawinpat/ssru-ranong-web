@@ -12,38 +12,39 @@
     <v-col cols="12" md="10" sm="10">
       <div class="ql-editor" v-html="data[0].detail" style="width: 100%"></div>
     </v-col>
-    <v-col cols="12" md="10" sm="10">
-      <p class="ql-editor">
-        <span>แหล่งที่มา : </span> <a :href="this.refer">{{ refer }}</a>
+    <v-col class="ql-editor" cols="12" md="10" sm="10">
+      <p>
+        แผนที่ : <a :href="this.data[0].maps">{{ this.data[0].maps }}</a>
+      </p>
+      <p>
+        แหล่งที่มา :
+        <a :href="this.data[0].refer">{{ this.data[0].refer }}</a>
       </p>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
-  name: "NewsContent",
+  name: "HitsContent",
   data() {
     return {
       data: null,
       refer: null,
+      maps: null,
     };
   },
   beforeMount() {
     this.OnQuery();
   },
-  computed: {
-    ...mapGetters(["getOneNews"]),
-  },
+  computed: {},
   methods: {
     async OnQuery() {
       let _id = this.$route.query.id;
-      let resultNewsContent = await this.$restApi.post("news/one", {
+      let resultNewsContent = await this.$restApi.post("hits/one", {
         _id: _id,
       });
       this.data = resultNewsContent;
-      this.refer = this.data[0].refer;
     },
   },
 };

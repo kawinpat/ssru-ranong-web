@@ -11,7 +11,7 @@
       color="green"
       shrink-on-scroll
       :style="BGStyle"
-      src="@/assets/image/background/B 003-002.png"
+      src="@/assets/image/background/R 001.png"
       height="250px"
       scroll-threshold="100000"
       dark
@@ -100,6 +100,7 @@
       prominent
       shrink-on-scroll
       :style="BGStyle"
+      src="@/assets/image/background/B 003-002.png"
       color="green"
       height="200px"
       scroll-threshold="100000"
@@ -122,26 +123,32 @@
     </v-main>
 
     <!-- Footer -->
-    <v-flex>
-      <v-footer color="#093A7A" height="200px" padless>
-        <v-row justify="center" no-gutters>
-          <v-btn
-            v-for="(link, i) in links"
-            :key="i"
-            color="white"
-            text
-            rounded
-            class="my-2"
-            @click="OnClick(link.path)"
-          >
-            {{ link.title }}
-          </v-btn>
-          <v-col class="py-4 text-center white--text" color="#093A7A" cols="12">
-            <strong>{{ new Date().getFullYear() + 543 }} — SSRU Project</strong>
-          </v-col>
-        </v-row>
-      </v-footer>
-    </v-flex>
+    <v-footer color="#093A7A" height="250px" app absolute>
+      <v-row justify="center">
+        <v-btn
+          v-for="(link, i) in links"
+          :key="i"
+          color="white"
+          text
+          rounded
+          class="my-2"
+          @click="OnClick(link.path)"
+        >
+          {{ link.title }}
+        </v-btn>
+        <v-btn class="my-1" icon>
+          <v-icon @click="redirect('https://www.facebook.com/')" color="white">mdi-facebook</v-icon>
+        </v-btn>
+        <v-btn class="my-1" icon>
+          <v-icon @click="redirect('https://www.youtube.com/')" color="white">
+            mdi-youtube
+          </v-icon>
+        </v-btn>
+        <v-col class="py-4 text-center white--text" color="#093A7A" cols="12">
+          <strong>{{ new Date().getFullYear() + 543 }} — SSRU Project</strong>
+        </v-col>
+      </v-row>
+    </v-footer>
   </div>
 </template>
 
@@ -169,6 +176,10 @@ export default {
         {
           text: "ข่าวสาร",
           path: "/news",
+        },
+        {
+          text: "แหล่งท่องเที่ยวยอดฮิต",
+          path: "/tour/hit",
         },
         {
           text: "ท่องเที่ยวเสมือนจริง",
@@ -203,6 +214,10 @@ export default {
           title: "ข่าวสาร",
           path: "/news",
         },
+        {
+          title: "แหล่งท่องเที่ยวยอดฮิต",
+          path: "/tour/hit",
+        },
         { title: "เกี่ยวกับการท่องเที่ยวเชิงเกษตร", path: "/about" },
         { title: "กระทู้ถาม/ตอบ", path: "/talking" },
         { title: "ท่องเที่ยวเสมือนจริง", path: "/tour/vr" },
@@ -233,6 +248,9 @@ export default {
     },
     OnclickSideBar() {
       this.sidebarMenu = !this.sidebarMenu;
+    },
+    redirect(link) {
+      window.location = link
     },
   },
 };

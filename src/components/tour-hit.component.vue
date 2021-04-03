@@ -1,25 +1,25 @@
 <template>
   <v-container>
     <div
-      v-if="this.news_data == null"
+      v-if="this.hits_data == null"
       class="d-flex justify-center align-center"
       style="height: 300px;"
     >
       <h2
-        v-if="setNewsData.length == 0"
+        v-if="setHitsData.length == 0"
         style="color:#093A7A; border-bottom: 1px solid #4d4d4d"
       >
-        ยังไม่มีบทความข่าวการท่องเที่ยวเชิงเกษตร
+        ยังไม่มีบทความแหล่งท่องเที่ยวยอดฮิต
       </h2>
     </div>
     <v-row
-      v-if="setNewsData.length != 0"
+      v-if="setHitsData.length != 0"
       class="fill-height"
       align="center"
       justify="start"
     >
       <v-col
-        v-for="(content, i) in setNewsData"
+        v-for="(content, i) in setHitsData"
         :key="i"
         cols="12"
         md="3"
@@ -28,7 +28,7 @@
         <v-hover v-slot="{ hover }">
           <v-card
             class="mx-auto cardNews"
-            @click="delete_news ? '' : OnClick('/news/content', content._id)"
+            @click="delete_hits ? '' : OnClick('/hits/content', content._id)"
             :elevation="hover ? 12 : 2"
             :color="hover ? '#FFC839' : 'white'"
             ><!-- color="grey lighten-4" -->
@@ -51,7 +51,7 @@
             <v-card-actions>
               <v-list-item class="grow">
                 <v-btn
-                  v-if="!delete_news"
+                  v-if="!delete_hits"
                   absolute
                   :color="hover ? 'white' : '#FFC839'"
                   class="white--text"
@@ -59,7 +59,7 @@
                   large
                   right
                   top
-                  @click="OnClick('/news/content', content._id)"
+                  @click="OnClick('/hits/content', content._id)"
                 >
                   <v-icon
                     :color="hover ? 'black' : 'white'"
@@ -104,8 +104,8 @@
 <script>
 import ConfirmDeleteDialog from "@/components/dialog/ConfirmDel.vue";
 export default {
-  name: "NewsComponent",
-  props: ["news_data", "delete_news", "page"],
+  name: "TourHitComponent",
+  props: ["hits_data", "delete_hits", "page"],
   components: { ConfirmDeleteDialog },
   data() {
     return {
@@ -114,16 +114,16 @@ export default {
     };
   },
   computed: {
-    setNewsData() {
-      let newsData;
-      if (this.page == "home" && this.news_data != null) {
-        newsData = this.news_data.slice(0, 4);
-      } else if (this.page == "news" && this.news_data != null) {
-        newsData = this.news_data;
-      } else if (this.news_data == null || this.news_data == undefined) {
-        newsData = [];
+    setHitsData() {
+      let hitsData;
+      if (this.page == "home" && this.hits_data != null) {
+        hitsData = this.hits_data.slice(0, 4);
+      } else if (this.page == "hits" && this.hits_data != null) {
+        hitsData = this.hits_data;
+      } else if (this.hits_data == null || this.hits_data == undefined) {
+        hitsData = [];
       }
-      return newsData;
+      return hitsData;
     },
   },
 
@@ -137,7 +137,7 @@ export default {
     },
     OnConfirm(deleteId) {
       this.deleteDialog = !this.deleteDialog;
-      this.$emit('deleteNews', deleteId)
+      this.$emit('deleteHits', deleteId)
     },
   },
 };

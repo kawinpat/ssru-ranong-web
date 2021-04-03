@@ -1,5 +1,6 @@
 const state = {
     news: null,
+    hits: null,
     discuss: null,
     lg: null,
 };
@@ -12,6 +13,9 @@ const getters = {
         return (_id) => {
             return state.news.filter((News) => News._id == _id);
         };
+    },
+    getHits(state) {
+        return state.hits;
     },
     getTalking(state) {
         return state.discuss;
@@ -34,6 +38,14 @@ const mutations = {
             state.news = [];
         }
         return state.news;
+    },
+    KeepHits(state, hits) {
+        if (hits) {
+            state.hits = hits;
+        } else {
+            state.hits = [];
+        }
+        return state.hits;
     },
     KeepTalking(state, talking) {
         if (talking) {

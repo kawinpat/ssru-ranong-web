@@ -11,10 +11,10 @@
         <v-btn icon dark @click="$emit('close')">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>เพิ่มบทความข่าว</v-toolbar-title>
+        <v-toolbar-title>เพิ่มบทความ</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn dark text @click="$emit('close')">
+          <v-btn dark text @click="OnSave">
             บันทึก
           </v-btn>
         </v-toolbar-items>
@@ -58,10 +58,36 @@
             accept="image/*"
           /> -->
         </v-col>
+        <v-col cols="12" md="3" sm="auto">
+          <h3>แหล่งอ้างอิง</h3>
+          <v-text-field
+            v-model="refer"
+            clearable
+            outlined
+            clear-icon="mdi-close-circle"
+            placeholder="กรุณากรอกหัวเรื่อง"
+          ></v-text-field>
+        </v-col>
         <v-col class="px-0" cols="12" md="11" sm="3">
-          <h3>เพิ่มรายละเอียดข่าว <span class="error--text">*</span></h3>
+          <h3>เพิ่มรายละเอียด <span class="error--text">*</span></h3>
           <vue-editor v-model="detail"></vue-editor>
         </v-col>
+
+        <v-col v-if="page == 'hits'" cols="12" md="3" sm="auto" class="d-flex">
+          <v-text-field
+            v-model="maps"
+            clearable
+            outlined
+            clear-icon="mdi-close-circle"
+            placeholder="กรุณากรอกลิงค์ที่อยู่"
+          ></v-text-field>
+        </v-col>
+        <v-checkbox
+          v-if="page == 'hits'"
+          v-model="statusHot"
+          label="เป็นสถานที่ยอดฮิตใช่ไหม?"
+        ></v-checkbox>
+
         <v-col cols="12" md="10" sm="3" v-if="detail">
           <h3 class="primary--text">เนื้อหาที่แสดง</h3>
           <div class="ql-editor" v-html="detail"></div>
@@ -84,7 +110,7 @@
 import { VueEditor } from "vue2-editor";
 export default {
   name: "NewPostDialog",
-  props: ["newpost_dialog"],
+  props: ["newpost_dialog", "page"],
   components: {
     VueEditor,
   },
@@ -94,6 +120,9 @@ export default {
       titleImg: null,
       titleImgUrl: "",
       detail: null,
+      refer: null,
+      statusHot: false,
+      maps: null,
       rules: {
         required: (value) => !!value || "กรุณากรอกข้อมูล.",
         checkImg: (value) =>
@@ -108,6 +137,9 @@ export default {
           title: this.title,
           detail: this.detail,
           titleImg: this.titleImg,
+          refer: this.refer,
+          statusHot: this.statusHot,
+          maps: this.maps,
         });
         this.$emit("close");
       } else {
@@ -119,7 +151,7 @@ export default {
         var reader = new FileReader();
         reader.readAsDataURL(event);
         reader.onload = async () => {
-           this.titleImg = reader.result
+          this.titleImg = reader.result;
         };
       }
     },

@@ -2,10 +2,11 @@
   <v-container justify="center" class="mt-10">
     <div class="d-flex justify-center" style="width:100%;">
       <v-data-table
-        :headers="headers"
+        :headers="isLoggedIn() ? headers : computedHeaders"
         :items="dataTable"
         :page.sync="page"
         :items-per-page="itemsPerPage"
+        no-data-text="ยังไม่มีกระทู้"
         hide-default-footer
         class="elevation-1"
         @page-count="pageCount = $event"
@@ -53,19 +54,29 @@
         </template>
         <template v-slot:[`item.read`]="{ item }">
           <v-btn
-            text
-            color="primary"
+            color="warning"
+            small
             @click="OnRead(item._id)"
             style="font-size:14px;"
           >
-            อ่านกระทู้
+            <strong>อ่านกระทู้</strong>
           </v-btn>
         </template>
         <template v-slot:[`item.title_tk`]="{ item }">
-          {{ item.title_tk.slice(0,25) }}
+          {{ item.title_tk.slice(0, 25) }}
         </template>
         <template v-slot:[`item.date`]="{ item }">
           {{ item.date | datetimeFormat }}
+        </template>
+        <template v-if="isLoggedIn()" v-slot:[`item.delete`]="{ item }">
+          <v-btn
+            icon
+            color="black"
+            @click="OnRecheck(item._id)"
+            style="font-size:14px;"
+          >
+            <v-icon>mdi-trash-can</v-icon>
+          </v-btn>
         </template>
       </v-data-table>
     </div>
@@ -76,19 +87,27 @@
         :length="pageCount"
       ></v-pagination>
     </div>
+    <ConfirmDelete
+      :deleteDialog="deleteDialog"
+      :deleteId="deleteId"
+      @closeDelete="deleteDialog = !deleteDialog"
+      @AcceptDelete="OnConfirm($event)"
+    />
   </v-container>
 </template>
 
 <script>
 import talkingComponent from "@/components/talking.component";
+import ConfirmDelete from "@/components/dialog/ConfirmDel.vue";
 import { mapMutations, mapGetters } from "vuex";
 export default {
   name: "Talking",
-  components: { talkingComponent },
+  components: { talkingComponent, ConfirmDelete },
   data() {
     return {
       dialog: false,
-      dialogDelete: false,
+      deleteDialog: false,
+      deleteId: null,
       editedIndex: -1,
       dataTable: [],
       defaultItem: {
@@ -109,36 +128,40 @@ export default {
         { text: "ผู้ตั้งกระทู้", sortable: false, value: "writer" },
         { text: "วันที่", value: "date" },
         { text: "", sortable: false, value: "read" },
+        { text: "ลบกระทู้", sortable: false, value: "delete" },
       ],
     };
   },
   beforeMount() {
-    this.OnQueryTalking();
+    this.OnNewQueryTalking();
   },
   computed: {
     ...mapGetters(["getTalking"]),
+    computedHeaders() {
+      return this.headers.slice(0, 4);
+    },
   },
   mounted() {
     this.OnNewQueryTalking();
   },
   methods: {
     ...mapMutations(["KeepTalking"]),
-    async OnQueryTalking() {
-      try {
-        let query = await this.getTalking;
-        if (query != null) {
-          if (query.length != 0) {
-            this.dataTable = query;
-            return false;
-          }
-        }
-        let resultTalking = await this.$restApi.get("talking/all");
-        this.KeepTalking(resultTalking);
-        this.dataTable = resultTalking;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async OnQueryTalking() {
+    //   try {
+    //     let query = await this.getTalking;
+    //     if (query != null) {
+    //       if (query.length != 0) {
+    //         this.dataTable = query;
+    //         return false;
+    //       }
+    //     }
+    //     let resultTalking = await this.$restApi.get("talking/all");
+    //     this.KeepTalking(resultTalking);
+    //     this.dataTable = resultTalking;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
 
     async OnNewQueryTalking() {
       try {
@@ -154,6 +177,26 @@ export default {
       this.$router.push(`/talking/discussion?id=${_id}`);
     },
 
+    OnRecheck(deleteId) {
+      this.deleteDialog = !this.deleteDialog;
+      this.deleteId = deleteId;
+    },
+
+    OnConfirm(deleteId) {
+      this.deleteDialog = !this.deleteDialog;
+      this.OnDelete(deleteId)
+    },
+
+    async OnDelete(_id) {
+      try {
+        await this.$restApi
+          .post("talking/discuss/delete", { _id })
+          .then(() => this.OnNewQueryTalking());
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async onSave(item) {
       let { title_tk, writer, tk_detail } = item;
       this.$restApi.post("talking/post", {
@@ -167,30 +210,6 @@ export default {
 
     close() {
       this.dialog = false;
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
     },
   },
 };

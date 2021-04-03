@@ -11,7 +11,7 @@
       prominent
       shrink-on-scroll
       :style="BGStyle"
-      src="@/assets/image/background/B 003-002.png"
+      src="@/assets/image/background/R 001.png"
       color="green"
       height="520px"
       scroll-threshold="100000"
@@ -59,7 +59,6 @@
           </v-menu>
         </v-col>
 
-        <!-- Login -->
         <v-col
           v-if="!isLoggedIn()"
           cols="2"
@@ -76,7 +75,6 @@
           </v-btn>
         </v-col>
 
-        <!-- logOut -->
         <v-col
           v-if="isLoggedIn()"
           cols="2"
@@ -95,11 +93,21 @@
       </v-row>
     </v-app-bar>
 
+    <!-- <v-carousel :show-arrows="false">
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :key="i"
+        class="NavImg"
+        :src="item.src"
+      ></v-carousel-item>
+    </v-carousel> -->
+
     <!-- Nav Bar Mobile-->
     <v-app-bar
       class="hidden-md-and-up"
       prominent
       shrink-on-scroll
+      src="@/assets/image/background/B 003-002.png"
       :style="BGStyle"
       color="green"
       height="200px"
@@ -123,8 +131,8 @@
     </v-main>
 
     <!-- Footer -->
-    <v-footer color="#093A7A" height="200px" padless>
-      <v-row justify="center" no-gutters>
+    <v-footer color="#093A7A" height="250px" app absolute>
+      <v-row justify="center">
         <v-btn
           v-for="(link, i) in links"
           :key="i"
@@ -135,6 +143,16 @@
           @click="OnClick(link.path)"
         >
           {{ link.title }}
+        </v-btn>
+        <v-btn class="my-1" icon>
+          <v-icon @click="redirect('https://www.facebook.com/')" color="white">
+            mdi-facebook
+          </v-icon>
+        </v-btn>
+        <v-btn class="my-1" icon>
+          <v-icon @click="redirect('https://www.youtube.com/')" color="white">
+            mdi-youtube
+          </v-icon>
         </v-btn>
         <v-col class="py-4 text-center white--text" color="#093A7A" cols="12">
           <strong>{{ new Date().getFullYear() + 543 }} — SSRU Project</strong>
@@ -153,6 +171,37 @@ export default {
   data() {
     return {
       sidebarMenu: false,
+      items: [
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+        },
+        {
+          image: "@/assets/image/background/B 003-002.png",
+        },
+      ],
+      // items: [
+      //   {
+      //     image: "../assets/image/background/B 003-002.png",
+      //   },
+      //   {
+      //     image: "../assets/image/background/B 001-001.png",
+      //   },
+      //   {
+      //     image: "../assets/image/background/B 001-002.png",
+      //   },
+      //   {
+      //     image: "../assets/image/background/B 003-001.png",
+      //   },
+      // ],
       home: [
         {
           text: "เว็บไซต์จังหวัดระนอง",
@@ -167,6 +216,10 @@ export default {
         {
           text: "ข่าวสาร",
           path: "/news",
+        },
+        {
+          text: "แหล่งท่องเที่ยวยอดฮิต",
+          path: "/tour/hit",
         },
         {
           text: "ท่องเที่ยวเสมือนจริง",
@@ -190,6 +243,10 @@ export default {
         {
           title: "ข่าวสาร",
           path: "/news",
+        },
+        {
+          title: "แหล่งท่องเที่ยวยอดฮิต",
+          path: "/tour/hit",
         },
         { title: "เกี่ยวกับการท่องเที่ยวเชิงเกษตร", path: "/about" },
         { title: "กระทู้ถาม/ตอบ", path: "/talking" },
@@ -222,6 +279,9 @@ export default {
     OnclickSideBar() {
       this.sidebarMenu = !this.sidebarMenu;
     },
+    redirect(link) {
+      window.location = link;
+    },
   },
 };
 </script>
@@ -245,5 +305,13 @@ div >>> .headerFont {
 .v-list-item .v-list-item__subtitle {
   font-size: 17px !important;
   font-weight: bold !important;
+}
+
+.v-image__image--cover {
+  background-size: cover;
+}
+
+div >>> .NavImg.v-image__image--cover {
+  background-size: cover;
 }
 </style>

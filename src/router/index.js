@@ -9,6 +9,8 @@ import talking from "../views/talking/Talking.vue";
 import discussion from "../views/talking/Discussion.vue";
 // import contract from "../views/Contract.vue";
 import tourVR from "../views/tour-vr/tour-vr.vue";
+import tourHit from "../views/tour-hit/tour-hit.vue";
+import tourHitContent from "../views/tour-hit/tour-hit-content.vue";
 
 Vue.use(VueRouter);
 
@@ -69,6 +71,22 @@ const routes = [{
         path: "/tour/vr",
         name: "TourVR",
         component: tourVR,
+        meta: {
+            layout: "child",
+        },
+    },
+    {
+        path: "/tour/hit",
+        name: "TourHit",
+        component: tourHit,
+        meta: {
+            layout: "child",
+        },
+    },
+    {
+        path: "/hits/content",
+        name: "TourHitContent",
+        component: tourHitContent,
         meta: {
             layout: "child",
         },
