@@ -1,11 +1,7 @@
 <template>
   <v-container>
-    <div class="d-flex justify-center align-center" style="height: 500px;">
-      <h2
-        style="color:#093A7A; border-bottom: 1px solid #4d4d4d"
-      >
-        ยังไม่มีบทความท่องเที่ยวเสมือนจริง
-      </h2>
+    <div class="contentImg d-flex justify-center align-center">
+      <v-img class="contentImg" style=" width: 100%;" src="@/assets/R-001.jpg"></v-img>
     </div>
   </v-container>
 </template>
@@ -16,4 +12,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+div >>> .contentImg {
+  height: 500px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  div >>> .contentImg {
+    height: 250px !important;
+  }
+}
+</style>

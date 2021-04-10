@@ -34,11 +34,11 @@
             ><!-- color="grey lighten-4" -->
             <v-img :aspect-ratio="16 / 8" :src="content.titleImg"> </v-img>
             <v-card-text class="pt-6" style="position: relative;">
-              <div v-if="content.title.length < 25" class="title mb-2">
+              <div v-if="content.title.length < 50" class="title mb-2">
                 {{ content.title | fixCardWord }}
                 <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small>
               </div>
-              <div v-if="content.title.length > 25" class="title mb-2">
+              <div v-if="content.title.length >= 50" class="title mb-2">
                 {{ content.title | fixCardWord }}
                 <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small>
               </div>
@@ -137,7 +137,7 @@ export default {
     },
     OnConfirm(deleteId) {
       this.deleteDialog = !this.deleteDialog;
-      this.$emit('deleteHits', deleteId)
+      this.$emit("deleteHits", deleteId);
     },
   },
 };
@@ -147,10 +147,11 @@ export default {
 .title {
   font-weight: bold !important;
   color: black;
+  font-size: 18px !important;
 }
-@media screen and (min-width: 375px) and (max-width: 1700px) {
+@media screen and (min-width: 320px) and (max-width: 1024px) {
   div >>> .title {
-    font-size: 18px !important;
+    font-size: 16px !important;
   }
 }
 </style>
