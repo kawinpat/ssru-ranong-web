@@ -6,124 +6,109 @@
       v-if="sidebarMenu"
     />
     <!-- Nav Bar -->
-    <v-app-bar
+    <v-row
       class="hidden-sm-and-down"
-      prominent
-      shrink-on-scroll
-      :style="BGStyle"
-      src="@/assets/image/background/R 001.png"
-      color="green"
-      height="520px"
-      scroll-threshold="100000"
-      dark
+      justify="end"
+      style="background-color:#093A7A"
     >
-      <v-row justify="end" style="background-color:#093A7A">
-        <v-col cols="3" class="py-1 d-flex justify-center align-end">
-          <v-btn
-            v-for="(next, i) in home"
-            :key="i"
-            text
-            class=" AppBtn"
-            @click="OnClick(next.path)"
-          >
-            <div class="headerFont">{{ next.text }}</div>
-          </v-btn>
-        </v-col>
-
-        <v-col cols="7" class="py-1 d-flex justify-end align-end">
-          <v-btn
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            text
-            class="AppBtn"
-            @click="OnClick(next.path)"
-          >
-            <div class="headerFont">{{ next.text }}</div>
-          </v-btn>
-
-          <v-menu open-on-hover down offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn class="AppBtn" text dark v-bind="attrs" v-on="on">
-                <div class="headerFont">เมนู</div>
-                <v-icon right class="material-icons">arrow_drop_down</v-icon>
-              </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item v-for="(item, index) in menus" :key="index">
-                <v-list-item-title @click="OnClick(item.path)">{{
-                  item.text
-                }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-col>
-
-        <v-col
-          v-if="!isLoggedIn()"
-          cols="2"
-          class="py-1 d-flex justify-center align-end"
+      <v-col cols="3" class="py-1 d-flex justify-center align-end">
+        <v-btn
+          v-for="(next, i) in home"
+          :key="i"
+          text
+          class=" AppBtn"
+          @click="OnClick(next.path)"
         >
-          <v-btn
-            v-for="(next, i) in login"
-            :key="i"
-            text
-            class="AppBtn"
-            @click="OnClick(next.path)"
-          >
-            <div class="headerFont">{{ next.text }}</div>
-          </v-btn>
-        </v-col>
+          <div class="headerFont">{{ next.text }}</div>
+        </v-btn>
+      </v-col>
 
-        <v-col
-          v-if="isLoggedIn()"
-          cols="2"
-          class="py-1 d-flex justify-center align-end"
+      <v-col cols="7" class="py-1 d-flex justify-end align-end">
+        <v-btn
+          v-for="(next, i) in whatsNext"
+          :key="i"
+          text
+          class="AppBtn"
+          @click="OnClick(next.path)"
         >
-          <v-btn
-            v-for="(next, i) in logOut"
-            :key="i"
-            text
-            class="AppBtn"
-            @click="OnClick(next.path, 'logOut')"
-          >
-            <div class="headerFont">{{ next.text }}</div>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-app-bar>
+          <div class="headerFont">{{ next.text }}</div>
+        </v-btn>
 
-    <!-- <v-carousel :show-arrows="false">
+        <v-menu open-on-hover down offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn class="AppBtn" text dark v-bind="attrs" v-on="on">
+              <div class="headerFont">เมนู</div>
+              <v-icon right class="material-icons">arrow_drop_down</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item v-for="(item, index) in menus" :key="index">
+              <v-list-item-title @click="OnClick(item.path)">{{
+                item.text
+              }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-col>
+
+      <v-col
+        v-if="!isLoggedIn()"
+        cols="2"
+        class="py-1 d-flex justify-center align-end"
+      >
+        <v-btn
+          v-for="(next, i) in login"
+          :key="i"
+          text
+          class="AppBtn"
+          @click="OnClick(next.path)"
+        >
+          <div class="headerFont">{{ next.text }}</div>
+        </v-btn>
+      </v-col>
+
+      <v-col
+        v-if="isLoggedIn()"
+        cols="2"
+        class="py-1 d-flex justify-center align-end"
+      >
+        <v-btn
+          v-for="(next, i) in logOut"
+          :key="i"
+          text
+          class="AppBtn"
+          @click="OnClick(next.path, 'logOut')"
+        >
+          <div class="headerFont">{{ next.text }}</div>
+        </v-btn>
+      </v-col>
+    </v-row>
+
+    <v-carousel
+      cycle
+      hide-delimiters
+      class="NavImg"
+      width="auto"
+      :show-arrows="false"
+    >
       <v-carousel-item
-        v-for="(item, i) in items"
-        :key="i"
         class="NavImg"
-        :src="item.src"
-      ></v-carousel-item>
-    </v-carousel> -->
-
-    <!-- Nav Bar Mobile-->
-    <v-app-bar
-      class="hidden-md-and-up"
-      prominent
-      shrink-on-scroll
-      src="@/assets/image/background/B 003-002.png"
-      :style="BGStyle"
-      color="green"
-      height="200px"
-      scroll-threshold="100000"
-      dark
-    >
-      <v-row>
-        <v-col
-          cols="2"
-          class="d-flex justify-center"
-          style="background-color:#093A7A"
-        >
-          <v-app-bar-nav-icon @click="OnclickSideBar"></v-app-bar-nav-icon>
-        </v-col>
-      </v-row>
-    </v-app-bar>
+        v-for="(pic, i) in items"
+        :key="i"
+        :src="require('@/assets/' + pic.image)"
+      >
+        <div class="hidden-md-and-up">
+          <v-col
+            cols="2"
+            class="d-flex justify-center"
+            style="background-color:#093A7A"
+          >
+            <v-app-bar-nav-icon @click="OnclickSideBar"></v-app-bar-nav-icon>
+          </v-col>
+        </div>
+      </v-carousel-item>
+    </v-carousel>
 
     <!-- Content -->
     <v-main>
@@ -173,35 +158,21 @@ export default {
       sidebarMenu: false,
       items: [
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+          image: "R-001.jpg",
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+          image: "B-003-002.png",
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+          image: "B-001-001.png",
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+          image: "B-001-002.png",
         },
         {
-          image: "@/assets/image/background/B 003-002.png",
+          image: "B-003-001.png",
         },
       ],
-      // items: [
-      //   {
-      //     image: "../assets/image/background/B 003-002.png",
-      //   },
-      //   {
-      //     image: "../assets/image/background/B 001-001.png",
-      //   },
-      //   {
-      //     image: "../assets/image/background/B 001-002.png",
-      //   },
-      //   {
-      //     image: "../assets/image/background/B 003-001.png",
-      //   },
-      // ],
       home: [
         {
           text: "เว็บไซต์จังหวัดระนอง",
@@ -289,6 +260,7 @@ export default {
 <style scoped>
 .AppBtn {
   height: 50px !important;
+  color: white !important;
 }
 
 .AppBtn:hover {
@@ -311,7 +283,12 @@ div >>> .headerFont {
   background-size: cover;
 }
 
-div >>> .NavImg.v-image__image--cover {
-  background-size: cover;
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .NavImg {
+    height: 250px !important;
+  }
+  div >>> .v-image__image--cover {
+    height: 250px !important;
+  }
 }
 </style>

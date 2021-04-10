@@ -38,13 +38,38 @@
       </v-btn>
     </v-row>
     <NewsComponent :news_data="news_data" :page="'home'" />
-    <v-row v-if="news_data" class="d-flex justify-center align-end">
+    <v-row class="d-flex justify-center align-end">
       <v-btn
         class="hidden-md-and-up orange--text"
         @click="$router.push('/news')"
         outlined
       >
         ดูข่าวทั้งหมด<v-icon right class="material-icons">read_more</v-icon>
+      </v-btn>
+    </v-row>
+
+    <v-row class="px-7 pt-10 d-flex justify-start align-end">
+      <h1 class="headTopic">ท่องเที่ยวเสมือนจริง</h1>
+      <v-spacer></v-spacer>
+      <v-btn
+        class="hidden-sm-and-down orange--text"
+        @click="$router.push('/tour/vr')"
+        outlined
+      >
+        ดูท่องเที่ยวเสมือนจริง
+        <v-icon right class="material-icons">read_more</v-icon>
+      </v-btn>
+    </v-row>
+    <TourVr />
+    <v-row class="d-flex justify-center align-end">
+      <v-btn
+        class="hidden-md-and-up orange--text"
+        @click="$router.push('/tour/vr')"
+        outlined
+      >
+        ดูท่องเที่ยวเสมือนจริง<v-icon right class="material-icons"
+          >read_more</v-icon
+        >
       </v-btn>
     </v-row>
 
@@ -96,6 +121,7 @@ import { mapGetters, mapMutations } from "vuex";
 import NewsComponent from "@/components/News.component.vue";
 import AboutComponent from "@/components/About.component.vue";
 import TourHitComponent from "@/components/tour-hit.component.vue";
+import TourVr from "@/views/tour-vr/tour-vr.vue";
 
 export default {
   name: "Home",
@@ -103,6 +129,7 @@ export default {
     NewsComponent,
     AboutComponent,
     TourHitComponent,
+    TourVr,
   },
   beforeMount() {
     this.OnQueryNews();
@@ -121,14 +148,8 @@ export default {
     ...mapMutations(["KeepNews", "KeepHits"]),
     async OnQueryNews() {
       try {
-        // let QueryNews = await this.getNews;
-        // if (QueryNews != null && QueryNews.lenght != 0) {
-        //   this.news_data = QueryNews;
-        //   return false;
-        // }
         let news = await this.$restApi.get("news/all");
-        if (news.length != 0) {
-          this.KeepNews(news);
+        if (news != null && news.length != 0) {
           this.news_data = news;
         } else {
           this.news_data = null;
@@ -139,14 +160,8 @@ export default {
     },
     async OnQueryHits() {
       try {
-        // let QueryHits = await this.getHits;
-        // if (QueryHits != null && QueryHits.lenght != 0) {
-        //   this.hits_data = QueryHits;
-        //   return false;
-        // }
         let hits = await this.$restApi.get("hits/hot");
-        if (hits.length != 0) {
-          this.KeepHits(hits);
+        if (hits != null && hits.lenght != 0) {
           this.hits_data = hits;
         } else {
           this.hits_data = null;
