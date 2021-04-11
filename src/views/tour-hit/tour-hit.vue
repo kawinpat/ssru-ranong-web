@@ -84,14 +84,8 @@ export default {
     ...mapMutations(["KeepHits"]),
     async OnQueryHits() {
       try {
-        // let QueryHits = await this.getHits;
-        // if (QueryHits != null && QueryHits.lenght != 0) {
-        //   this.hits_data = QueryHits;
-        //   return false;
-        // }
         let hits = await this.$restApi.get("hits/all");
         if (hits.length != 0) {
-          this.KeepHits(hits);
           this.hits_data = hits;
         } else {
           this.hits_data = null;
@@ -121,6 +115,8 @@ export default {
           .then(() => this.OnQueryHits());
       } catch (error) {
         console.log(error);
+      } finally {
+        this.delete_hits = !this.delete_hits;
       }
     },
   },
