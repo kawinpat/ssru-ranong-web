@@ -11,7 +11,7 @@
       justify="end"
       style="background-color:#093A7A"
     >
-      <v-col cols="3" class="py-1 d-flex justify-center align-end">
+      <v-col cols="7" class="py-1 d-flex justify-start align-end">
         <v-btn
           v-for="(next, i) in home"
           :key="i"
@@ -23,7 +23,7 @@
         </v-btn>
       </v-col>
 
-      <v-col cols="7" class="py-1 d-flex justify-end align-end">
+      <v-col cols="3" class="py-1 d-flex justify-end align-end">
         <v-btn
           v-for="(next, i) in whatsNext"
           :key="i"
@@ -159,24 +159,24 @@ export default {
       sidebarMenu: false,
       items: [
         {
-          image: "R-001.jpg",
+          image: "B-001.jpg",
         },
         {
-          image: "B-003-002.png",
+          image: "B-002.png",
         },
         {
-          image: "B-001-001.png",
+          image: "B-003.png",
         },
         {
-          image: "B-001-002.png",
+          image: "B-004.png",
         },
         {
-          image: "B-003-001.png",
+          image: "B-005.png",
         },
       ],
       home: [
         {
-          text: "เว็บไซต์จังหวัดระนอง",
+          text: "การส่งเสริมการท่องเที่ยวเชิงเกษตรสร้างสร้างสรรค์ จังหวัดระนอง",
           path: "/",
         },
       ],
@@ -185,6 +185,20 @@ export default {
           text: "หน้าแรก",
           path: "/",
         },
+        // {
+        //   text: "ข่าวสาร",
+        //   path: "/news",
+        // },
+        // {
+        //   text: "แหล่งท่องเที่ยวยอดฮิต",
+        //   path: "/tour/hit",
+        // },
+        // {
+        //   text: "ท่องเที่ยวเสมือนจริง",
+        //   path: "/tour/vr",
+        // },
+      ],
+      menus: [
         {
           text: "ข่าวสาร",
           path: "/news",
@@ -197,8 +211,6 @@ export default {
           text: "ท่องเที่ยวเสมือนจริง",
           path: "/tour/vr",
         },
-      ],
-      menus: [
         {
           text: "เกี่ยวกับการท่องเที่ยวเชิงเกษตร",
           path: "/about",

@@ -32,15 +32,19 @@
             :elevation="hover ? 12 : 2"
             :color="hover ? '#FFC839' : 'white'"
             ><!-- color="grey lighten-4" -->
-            <v-img :aspect-ratio="16 / 8" :src="content.titleImg"> </v-img>
+            <v-img
+              :aspect-ratio="16 / 8"
+              :src="content.titleImg"
+            >
+            </v-img>
             <v-card-text class="pt-6" style="position: relative;">
               <div v-if="content.title.length < 50" class="title mb-2">
                 {{ content.title | fixCardWord }}
-                <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small>
+                <!-- <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small> -->
               </div>
               <div v-if="content.title.length >= 50" class="title mb-2">
                 {{ content.title | fixCardWord }}
-                <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small>
+              <!-- <small class="primary--text">{{ "..." + "อ่านต่อ" }}</small> -->
               </div>
               <v-spacer></v-spacer>
               <div class="mb-2 black--text">

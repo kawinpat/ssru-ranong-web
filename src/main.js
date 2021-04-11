@@ -42,8 +42,8 @@ Vue.filter("datetimeFormat", function(value) {
 });
 
 Vue.filter("fixCardWord", function(value) {
-    if (value.length > 50) {
-        return value.slice(0, 50);
+    if (value.length > 75) {
+        return value.slice(0, 75);
     } else return value;
 });
 
