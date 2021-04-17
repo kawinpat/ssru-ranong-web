@@ -8,8 +8,7 @@
     <!-- Nav Bar -->
     <v-row
       class="hidden-sm-and-down"
-      justify="end"
-      style="background-color:#093A7A"
+      style="background-color:#093A7A; position: absolute; z-index: 1; width:101.2%;"
     >
       <v-col cols="7" class="py-1 d-flex justify-start align-end">
         <v-btn
@@ -116,7 +115,7 @@
     </v-main>
 
     <!-- Footer -->
-    <v-footer color="#093A7A" height="250px" app absolute>
+    <v-footer color="#093A7A" height="300px" app absolute>
       <v-row justify="center">
         <v-btn
           v-for="(link, i) in links"
@@ -140,7 +139,10 @@
           </v-icon>
         </v-btn>
         <v-col class="py-4 text-center white--text" color="#093A7A" cols="12">
-          <strong>{{ new Date().getFullYear() + 543 }} — SSRU Project</strong>
+          <strong
+            >{{ new Date().getFullYear() + 543 }} —
+            มหาวิทยาลัยราชภัฎสวนสุนันทา</strong
+          >
         </v-col>
       </v-row>
     </v-footer>
