@@ -148,7 +148,7 @@ export default {
     ...mapMutations(["KeepNews", "KeepHits"]),
     async OnQueryNews() {
       try {
-        let news = await this.$restApi.get("news/all");
+        let news = await this.$restApi.get("news/home");
         if (news != null && news.length != 0) {
           this.news_data = news;
         } else {

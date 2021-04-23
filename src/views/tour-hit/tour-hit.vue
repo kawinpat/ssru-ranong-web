@@ -48,6 +48,13 @@
       @submit="OnPosted($event)"
       :page="'hits'"
     />
+    <!-- <div class="text-center my-7">
+      <v-pagination
+        @click="OnQueryHits()"
+        v-model="pageNo"
+        :length="pageCount"
+      ></v-pagination>
+    </div> -->
   </v-container>
 </template>
 
@@ -63,6 +70,8 @@ export default {
       hits_data: null,
       newpost_dialog: false,
       delete_hits: false,
+      pageNo: 1,
+      pageCount: 2,
       maps: {
         map() {
           <iframe
@@ -78,13 +87,18 @@ export default {
     };
   },
   beforeMount() {
-    this.OnQueryHits();
+    this.OnQueryHit();
+  },
+  watch: {
+    pageNo: function() {
+      this.OnQueryHit()
+    },
   },
   methods: {
     ...mapMutations(["KeepHits"]),
-    async OnQueryHits() {
+    async OnQueryHit() {
       try {
-        let hits = await this.$restApi.get("hits/all");
+        let hits = await this.$restApi.get(`hits/all?pageNo=${this.pageNo}`);
         if (hits.length != 0) {
           this.hits_data = hits;
         } else {
@@ -95,18 +109,23 @@ export default {
       }
     },
     async OnPosted(item) {
-      let { title, detail, titleImg, refer, statusHot, maps } = item;
-      if (statusHot == true) statusHot = "hot";
-      else statusHot = "hit";
-      await this.$restApi.post("hits/post", {
-        title,
-        detail,
-        titleImg,
-        refer,
-        statusHot,
-        maps,
-      });
-      this.OnQueryHits();
+      try {
+        let { title, detail, titleImg, refer, statusHot, maps } = item;
+        if (statusHot == true) statusHot = "hot";
+        else statusHot = "hit";
+        await this.$restApi.post("hits/post", {
+          title,
+          detail,
+          titleImg,
+          refer,
+          statusHot,
+          maps,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.OnQueryHits();
+      }
     },
     async OnDelete(_id) {
       try {
