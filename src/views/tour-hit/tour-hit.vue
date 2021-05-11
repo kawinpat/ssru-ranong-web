@@ -87,16 +87,16 @@ export default {
     };
   },
   beforeMount() {
-    this.OnQueryHit();
+    this.OnQueryHits();
   },
   watch: {
     pageNo: function() {
-      this.OnQueryHit()
+      this.OnQueryHits();
     },
   },
   methods: {
     ...mapMutations(["KeepHits"]),
-    async OnQueryHit() {
+    async OnQueryHits() {
       try {
         let hits = await this.$restApi.get(`hits/all?pageNo=${this.pageNo}`);
         if (hits.length != 0) {
