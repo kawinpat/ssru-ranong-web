@@ -142,7 +142,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getNews", "getHits"]),
+    ...mapGetters(["getNews", "getHits"])
   },
   methods: {
     ...mapMutations(["KeepNews", "KeepHits"]),
